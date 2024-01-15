@@ -148,7 +148,8 @@ Flows and Tests are written in Javascript.
   "FullName": "{{$randomEmail}}",
   "email": "{{$randomEmail}}",
   "password": "{{password}}"
-}```
+}
+```
 
 ```js
 pm.test("Status code is 2xx", function () {...});
