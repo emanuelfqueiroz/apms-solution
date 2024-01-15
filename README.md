@@ -31,17 +31,16 @@ Run the following command to start the application:
 docker-compose up
 ```
 
+[docker-compose.yml](docker-compose.yml)
 
 #### Containers
-`webapp`: This container runs the main application, which is built using .NET 8. It communicates with the db container to perform database operations.
+`webapp`: This container runs the main application, which is built using .NET 8. It communicates with the db container to perform database operations. port:```8000```
 
 `db`: This container runs SQL Server, which is used to store and manage the application's data. It receives requests from the webapp container and performs the necessary database operations.
 
-#### SQL Server - Data Seed
-> entrypoint.sh will generate the initial data on Database
 
-- it creates the database, tables and indexes.
-- then, add some data for tests
+#### SQL Server - Data Seed
+> entrypoint.sh will create the database and add data for tests
 
 Script for reference:
 [DataBase Seeder](./database/init.sql)
@@ -68,8 +67,9 @@ This layer is responsible for handling HTTP requests and responses. It includes 
 
 - The Command stack is responsible for handling all commands, which are requests that modify the state of the system. 
 
-- The Query stack is responsible for handling all queries. It is ideal if we need to use a read-replica or a `consolidated` database like `MongoDB` or `Redis`
-
+- The Query stack is responsible for handling all queries. 
+It is great when we need to access differente data strucutures, like: `consolidated data` or `real time analysis`. 
+ 
  
 This separation allows for flexibility in scaling, as the Command stack and Query stack can be scaled independently based on their load. It also improves performance, as read and write operations can be optimized separately.
 
@@ -198,8 +198,8 @@ Mock example of data from Redis
 ```
 
 
-### Stats and Ad Tracker
-Refis can be used for real time stats:
+### Purchase Stats and Ad Tracker
+Redis can be used for real time stats:
 
 ```mermaid
 flowchart LR
