@@ -1,0 +1,6 @@
+@affiliatePMS.WebAPI_HostAddress = http://localhost:5043
+
+GET {{affiliatePMS.WebAPI_HostAddress}}/affiliate/
+Accept: application/json
+
+###

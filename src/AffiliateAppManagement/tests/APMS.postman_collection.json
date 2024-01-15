@@ -1,0 +1,745 @@
+{
+	"info": {
+		"_postman_id": "79e059a1-5c71-4274-9354-3b7842b12404",
+		"name": "APMS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1583178"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "User/Register Random",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"FullName\": \"{{$randomEmail}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/User/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"User",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the token from the response body to an environment or global variable\r",
+									"var token = pm.response.json().token;\r",
+									"pm.environment.set(\"token\", token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{user}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin/Head",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "HEAD",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5043/api/admin/Affiliate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"admin",
+								"Affiliate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin/Add Affiliate",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the token from the response body to an environment or global variable\r",
+									"var affiliateId = pm.response.json().data.id;\r",
+									"pm.environment.set(\"affiliateId\", affiliateId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"publicName\": \"{{$randomFullName}}\",\r\n  \"fullName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"phone1\": \"{{$randomPhoneNumber}}\",\r\n  \"phone2\": \"{{$randomPhoneNumber}}\",\r\n  \"socialMedias\": [\r\n    {\r\n      \"type\": \"{{$randomCompanyName}}\",\r\n      \"url\": \"@{{$randomProductName}}\",\r\n      \"followers\": \"{{$randomInt}}0000\"\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/admin/AdminAffiliate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"admin",
+								"AdminAffiliate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin/Add Customer",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the token from the response body to an environment or global variable\r",
+									"var affiliateId = pm.response.json().data.id;\r",
+									"pm.environment.set(\"affiliateId\", affiliateId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"affiliateId\": {{affiliateId}},\r\n  \"fullName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"phone\": \"{{$randomPhoneNumber}}\",\r\n  \"birthDate\": \"1984-01-01\",\r\n  \"gender\": 1\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/admin/affiliate/{{affiliateId}}/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"admin",
+								"affiliate",
+								"{{affiliateId}}",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin/GetAffiliateId",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the token from the response body to an environment or global variable\r",
+									"var affiliateId = pm.response.json().data.id;\r",
+									"pm.environment.set(\"affiliateId\", affiliateId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5043/api/admin/AdminAffiliate/{{affiliateId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"admin",
+								"AdminAffiliate",
+								"{{affiliateId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin/GetCustomers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"var id = responseBody[0].id;\r",
+									"pm.environment.set(\"customerId\", id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"publicName\": \"{{$randomFullName}}\",\r\n  \"fullName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"phone1\": \"{{$randomPhoneNumber}}\",\r\n  \"phone2\": \"{{$randomPhoneNumber}}\",\r\n  \"socialMedias\": [\r\n    {\r\n      \"type\": \"{{$randomCompanyName}}\",\r\n      \"url\": \"@{{$randomProductName}}\",\r\n      \"followers\": \"{{$randomInt}}0000\"\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/admin/affiliate/{{affiliateId}}/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"admin",
+								"affiliate",
+								"{{affiliateId}}",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin/GetCustomerById",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the token from the response body to an environment or global variable\r",
+									"var affiliateId = pm.response.json().data.id;\r",
+									"pm.environment.set(\"affiliateId\", affiliateId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"publicName\": \"{{$randomFullName}}\",\r\n  \"fullName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"phone1\": \"{{$randomPhoneNumber}}\",\r\n  \"phone2\": \"{{$randomPhoneNumber}}\",\r\n  \"socialMedias\": [\r\n    {\r\n      \"type\": \"{{$randomCompanyName}}\",\r\n      \"url\": \"@{{$randomProductName}}\",\r\n      \"followers\": \"{{$randomInt}}0000\"\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/admin/affiliate/{{affiliateId}}/customers/{{customerId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"admin",
+								"affiliate",
+								"{{affiliateId}}",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Affiliate",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the token from the response body to an environment or global variable\r",
+									"var token = pm.response.json().token;\r",
+									"pm.environment.set(\"token\", token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{affiliateLogin}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCustomers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"var id = responseBody[0].id;\r",
+									"pm.environment.set(\"customerId\", id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/affiliate/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"affiliate",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AdRealTimeStats",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"var id = responseBody[0].id;\r",
+									"pm.environment.set(\"customerId\", id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"publicName\": \"{{$randomFullName}}\",\r\n  \"fullName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"phone1\": \"{{$randomPhoneNumber}}\",\r\n  \"phone2\": \"{{$randomPhoneNumber}}\",\r\n  \"socialMedias\": [\r\n    {\r\n      \"type\": \"{{$randomCompanyName}}\",\r\n      \"url\": \"@{{$randomProductName}}\",\r\n      \"followers\": \"{{$randomInt}}0000\"\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/ad/RealTimeStats",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"ad",
+								"RealTimeStats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTotalCustomers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "HEAD",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5043/api/affiliate/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"affiliate",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Others",
+			"item": [
+				{
+					"name": "User/Register as Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"FullName\": \"Affiliate from API\",\r\n  \"email\": \"{{user}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5043/api/User/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5043",
+							"path": [
+								"api",
+								"User",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

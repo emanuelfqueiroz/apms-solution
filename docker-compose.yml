@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  webapp:
+    build:
+      context: src/AffiliateAppManagement/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+      ConnectionStrings__APMSConnection: "Server=db; Database=affiliatePMS; User ID=sa; Password=Your_password123; Connect Timeout=120;Trusted_Connection=false;Encrypt=False;TrustServerCertificate=False;MultipleActiveResultSets=True"
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./database/:/usr/src/sql/
+    command: bash -c "/usr/src/sql/entrypoint.sh"
