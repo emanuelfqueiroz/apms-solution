@@ -1,7 +1,6 @@
 using AffiliatePMS.Application.AffiliateCustomers.CreateCustomer;
 using AffiliatePMS.Application.Common;
 using AffiliatePMS.Domain.AffiliateCustomers;
-using AffiliatePMS.Domain.Affiliates;
 using AffiliatePMS.Domain.Common;
 using AutoFixture;
 using AutoFixture.AutoMoq;

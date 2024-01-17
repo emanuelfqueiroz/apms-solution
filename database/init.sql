@@ -9,6 +9,7 @@ Use AffiliatePMS
 CREATE TABLE Affiliate (
     Id INT IDENTITY(1,1),
     PublicName NVARCHAR(255),
+    UserCreatedId Int NULL,
     CONSTRAINT PK_Affiliate_ID PRIMARY KEY (Id)
 );
 

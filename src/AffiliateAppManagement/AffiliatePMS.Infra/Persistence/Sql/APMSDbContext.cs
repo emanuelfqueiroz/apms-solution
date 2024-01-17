@@ -50,6 +50,7 @@ public partial class APMSDbContext : DbContext
             entity.HasIndex(e => e.PublicName, "IDX_AffiliateDetail_PublicName");
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.PublicName).HasMaxLength(255);
+            entity.Ignore(e => e.UserCreatedId);
         });
 
         modelBuilder.Entity<AffiliateAddress>(entity =>

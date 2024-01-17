@@ -1,10 +1,7 @@
 ﻿using AffiliatePMS.Domain.Affiliates;
 using AffiliatePMS.Infra.Persistence.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
-using static AffiliatePMS.Infra.Tests.RepositoryTests;
-using System.Collections.Generic;
 
 namespace AffiliatePMS.Infra.Tests;
 
@@ -62,5 +59,5 @@ public class RepositoryTests
         mockDbSet.Verify(dbSet => dbSet.Remove(entity), Times.Once);
     }
 
-  
+
 }

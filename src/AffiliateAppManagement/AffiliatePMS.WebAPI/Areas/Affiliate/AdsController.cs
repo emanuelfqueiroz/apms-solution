@@ -6,12 +6,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _AffiliatePMS.WebAPI.Controllers
+namespace _AffiliatePMS.WebAPI.Areas.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize(Roles = Role.Affiliate)]
-    public class AdController(IMediator mediator) : ControllerBase
+    public class AdsController(IMediator mediator) : ControllerBase
     {
 
         [HttpGet("RealTimeStats")]

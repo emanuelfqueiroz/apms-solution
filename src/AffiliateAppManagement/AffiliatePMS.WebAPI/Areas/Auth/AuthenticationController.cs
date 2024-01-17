@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace AffiliatePMS.WebAPI.Controllers
+namespace _AffiliatePMS.WebAPI.Areas.Auth
 {
 
     [ApiVersion(1.0)]
-    [Route("api/user")]
+    [Route("api/v1/users")]
     [Tags(" Authentication")]
     [ApiController]
     public class AuthenticationController(IAuthService authService, ILogger<AuthenticationController> logger) : ControllerBase

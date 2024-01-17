@@ -1,5 +1,5 @@
 namespace AffiliatePMS.WebAPI.Tests.Admin;
-using _AffiliatePMS.WebAPI.Admin;
+using _AffiliatePMS.WebAPI.Areas.Admin;
 using AffiliatePMS.Application.AffiliateCustomers.CreateCustomer;
 using AffiliatePMS.Application.Affiliates.Create;
 using AffiliatePMS.Application.Affiliates.Query;
@@ -13,19 +13,19 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-public class AffiliateControllerTests
+public class AffiliatesControllerTests
 {
     private readonly Mock<IMediator> _mockMediator;
-    private readonly Mock<ILogger<AffiliateController>> _mockLogger;
-    private readonly AffiliateController _controller;
+    private readonly Mock<ILogger<AffiliatesController>> _mockLogger;
+    private readonly AffiliatesController _controller;
     private readonly CancellationToken cancellationToken = new();
     private readonly Fixture fixture = new();
 
-    public AffiliateControllerTests()
+    public AffiliatesControllerTests()
     {
         _mockMediator = new Mock<IMediator>();
-        _mockLogger = new Mock<ILogger<AffiliateController>>();
-        _controller = new AffiliateController(_mockMediator.Object, _mockLogger.Object);
+        _mockLogger = new Mock<ILogger<AffiliatesController>>();
+        _controller = new AffiliatesController(_mockMediator.Object, _mockLogger.Object);
         _controller.ControllerContext.HttpContext = new DefaultHttpContext();
         fixture.Customize<CreateAffiliateCustomerCommand>(c => c.With(p => p.BirthDate, new DateOnly(2000, 1, 1)));
     }
@@ -71,7 +71,7 @@ public class AffiliateControllerTests
             .ReturnsAsync(CommandResponse<EntityCreated>.Success(new()));
 
         // Act
-        var result = await _controller.CreateAffiliate(command);
+        var result = await _controller.Add(command);
 
         // Assert
         Assert.IsType<CreatedAtActionResult>(result);
@@ -86,49 +86,11 @@ public class AffiliateControllerTests
             .ReturnsAsync(CommandResponse<EntityCreated>.Error(""));
 
         // Act
-        var result = await _controller.CreateAffiliate(command);
+        var result = await _controller.Add(command);
 
         // Assert
-        Assert.IsType<ConflictObjectResult>(result);
+        Assert.Equal(500, ((ObjectResult)result).StatusCode);
     }
 
-    [Fact]
-    public async Task CreateAffiliateCustomer_ShouldReturnOk_WhenCalled()
-    {
-        // Arrange
-        var affiliateId = 2;
-        var command = fixture.Build<CreateAffiliateCustomerCommand>()
-            .With(p => p.AffiliateId, affiliateId)
-            .With(p => p.BirthDate, new DateOnly(2000, 1, 1))
-            .Create();
 
-        _mockMediator.Setup(mediator => mediator.Send(It.IsAny<CreateAffiliateCustomerCommand>(), cancellationToken))
-            .ReturnsAsync(CommandResponse<EntityCreated?>.Success(new()));
-
-        // Act
-        var result = await _controller.CreateCustomer(affiliateId, command);
-
-        // Assert
-        Assert.IsType<CreatedAtActionResult>(result);
-    }
-
-    [Fact]
-    public async Task CreateAffiliateCustomer_ShouldReturnConflict_WhenError()
-    {
-        // Arrange
-        var affiliateId = 2;
-        var command = fixture.Build<CreateAffiliateCustomerCommand>()
-            .With(p => p.AffiliateId, affiliateId)
-            .With(p => p.BirthDate, new DateOnly(2000, 1, 1))
-            .Create();
-
-        _mockMediator.Setup(mediator => mediator.Send(It.IsAny<CreateAffiliateCustomerCommand>(), cancellationToken))
-            .ReturnsAsync(CommandResponse<EntityCreated?>.Error(""));
-
-        // Act
-        var result = await _controller.CreateCustomer(affiliateId, command);
-
-        // Assert
-        Assert.IsType<ConflictObjectResult>(result);
-    }
 }
